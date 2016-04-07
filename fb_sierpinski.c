@@ -42,8 +42,12 @@ int main(int argc, char **argv)
   unsigned int angle, r, iters, frames, time, i, n, d[3];
   float seconds, fps[16];
   struct timeval last, now;
+  char fb_node[8]={0};
 
-  fd = open("/dev/fb0", O_RDWR);
+
+  sprintf(fb_node,"/dev/%s",argv[1]);
+
+  fd = open(fb_node, O_RDWR);
   ioctl(fd, FBIOGET_VSCREENINFO, &info);
   len = info.xres * info.yres * info.bits_per_pixel / 8;
   buffer = mmap(NULL, len, PROT_WRITE, MAP_SHARED, fd, 0);
